@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Amazia | Backend Engineer</title>
+    <style>
+        /* CSS Variables for easy theming */
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #cbd5e1;
+            --accent-color: #10b981;
+            /* Emerald green */
+            --card-bg: #1e293b;
+            --heading-color: #f8fafc;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            color: var(--heading-color);
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #34d399;
+            text-decoration: underline;
+        }
+
+        /* Layout & Navigation */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        nav .logo {
+            font-family: var(--font-mono);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        /* Hero Section */
+        #hero {
+            text-align: left;
+            padding: 120px 0;
+        }
+
+        #hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+        }
+
+        #hero .terminal-text {
+            font-family: var(--font-mono);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .skill-category ul {
+            list-style-type: none;
+            margin-top: 10px;
+        }
+
+        .skill-category li::before {
+            content: "> ";
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+        }
+
+        /* Projects Section */
+        .project-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+			opacity: 1;
+			transform: translateY(0) scale(1);
+            transition: transform 0.2s ease, opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+.project-card.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+}
+
+        .project-card.fade-in {
+            animation: fadeIn 0.35s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .tech-stack {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 15px;
+        }
+
+        .tech-tag {
+            background-color: #334155;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .project-links a {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--heading-color);
+        }
+
+        .filter-btn.active {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <nav>
+            <div class="logo">~/portfolio $</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <section id="about">
+            <span class="terminal-text">Backend Engineer</span>
+            <h1>I'm Daniel Amazia.<br>I build robust, scalable backend systems.</h1>
+            <p style="max-width: 600px; font-size: 1.1rem; margin-top: 20px;">
+                I am a Backend Software Engineer with a strong foundation in database design, RESTful architecture, and
+                cloud deployment. Passionate about building well-documented, reliable services from scratch.
+            </p>
+        </section>
+
+        <section id="skills">
+            <h2>Skills</h2>
+            <p>Tools and technologies I am experienced with.</p>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Languages</h3>
+                    <ul>
+
+                        <li>C++</li>
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>Javascript</li>
+                        <li>Typescript</li>
+                        <li>PHP</li>
+                        <li>SQL</li>
+                        <li>Bash</li>
+                        <li>Solidity</li>
+
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Databases</h3>
+                    <ul>
+                        <li>MySQL</li>
+                        <li>PostgreSQL</li>
+                        <li>MongoDB</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Devops & Cloud</h3>
+                    <ul>
+                        <li>Docker</li>
+                        <li>AWS</li>
+                        <li>Microsoft Azure</li>
+                        <li>Digital Ocean</li>
+                        <li>GitHub Actions</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Personal Projects</h2>
+
+            <div class="filter-container" style="margin-bottom: 20px; display: flex; gap: 10px;">
+                <button class="filter-btn active" onclick="filterProjects('all')">All</button>
+                <button class="filter-btn" onclick="filterProjects('ai')">AI / Computer Vision</button>
+                <button class="filter-btn" onclick="filterProjects('backend')">Backend</button>
+                <button class="filter-btn" onclick="filterProjects('frontend')">Frontend</button>
+				<button class="filter-btn" onclick="filterProjects('blockchain')">Blockchain</button>
+            </div>
+			
+			<div class="project-card" data-category="backend frontend">
+                <h3>Technicolor</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">Javascript</span>
+                    <span class="tech-tag">Typescript</span>
+					<span class="tech-tag">SQL</span>
+                    <span class="tech-tag">React</span>
+					<span class="tech-tag">Node js</span>
+					<span class="tech-tag">Express js</span>
+					<span class="tech-tag">MySQL</span>
+					<span class="tech-tag">JWT</span>
+					<span class="tech-tag">AWS S3</span>
+					<span class="tech-tag">Midtrans</span>
+                </div>
+                <p>Full-stack e-commerce platform built with Node.js, Express, and React that connects customers and vendors in an integrated marketplace. The backend handles product catalogs, order management, payment processing via Midtrans, and vendor messaging, all backed by MySQL with JWT authentication. The frontend comprises a public-facing React storefront for customers and a CoreUI-based vendor dashboard for inventory and sales management. The system includes automated workflows for notifications and order processing, AWS S3 integration for file uploads, and email communication via Nodemailer.</p>
+                <div class="project-links" style="margin-top: 15px;">
+                    <a href="https://github.com/git-denial/technicolor">View Source on GitHub
+                        &rarr;</a>
+                </div>
+            </div>
+			
+			<div class="project-card" data-category="backend frontend">
+                <h3>Admin Dashboard</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">Javascript</span>
+                    <span class="tech-tag">Typescript</span>
+					<span class="tech-tag">SQL</span>
+                    <span class="tech-tag">React</span>
+					<span class="tech-tag">Node js</span>
+					<span class="tech-tag">Express js</span>
+					<span class="tech-tag">MySQL</span>
+					<span class="tech-tag">JWT</span>
+                </div>
+                <p>Full-stack healthcare administration platform built with Next.js, TypeScript, and Prisma to support the management of users, cardiologists, consultations, and healthcare-related workflows. It implements role-based authentication with JWT tokens, a responsive interface using Shadcn UI and Tailwind CSS, and a MySQL database for persistent data management.
+
+The platform includes integrated chat functionality, server-side rendering, structured API endpoints, and robust form handling with React Hook Form and Zod. Data-heavy interfaces are managed with TanStack React Table, while automated testing is covered through Vitest unit tests and Playwright end-to-end tests.
+</p>
+                <div class="project-links" style="margin-top: 15px;">
+                    <a href="https://github.com/git-denial/admin_dashboard">View Source on GitHub
+                        &rarr;</a>
+                </div>
+            </div>
+			
+			<div class="project-card" data-category="backend frontend blockchain">
+                <h3>Decentralized Supply Chain Management Web App</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">Typescript</span>
+                    <span class="tech-tag">React</span>
+					<span class="tech-tag">EVM</span>
+					
+                </div>
+                <p>Blockchain-based supply chain management application built on Ethereum. It tracks products through multiple supply chain participants (Suppliers, Crafters, Distributors, Retailers, and Customers), allowing authorized parties to transfer products between roles and add timestamped transaction history with images and metadata to the blockchain via the Sepolia testnet.
+</p>
+                <div class="project-links" style="margin-top: 15px;">
+                    <a href="https://github.com/git-denial/supplychain-stingray-leather">View Source on GitHub
+                        &rarr;</a>
+                </div>
+            </div>
+			
+
+			
+			<div class="project-card" data-category="ai">
+                <h3>Hand Gesture Recognition System</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">Qt</span>
+                    <span class="tech-tag">OpenCV</span>
+                </div>
+                <p>Real-time hand gesture detection desktop application built with C++ and OpenCV. Recognizes open hand, palm, and fist gestures from webcam input with sub-50ms latency using computer vision and Kalman filter tracking.</p>
+                <div class="project-links" style="margin-top: 15px;">
+                    <a href="https://github.com/git-denial/hand_gesture_recognition">View Source on GitHub
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <div class="project-card" data-category="ai">
+                <h3>Real-Time Histogram Equalizer & Visualizer</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">Qt</span>
+                    <span class="tech-tag">OpenCV</span>
+                </div>
+                <p>A desktop computer vision application built in C++ and Qt demonstrating from-scratch contrast
+                    enhancement algorithms on live webcam feeds and static images. Hand-coded statistical distribution
+                    pipeline (PDF/CDF), zero external black-box filters, real-time 4-panel telemetry display.</p>
+                <div class="project-links" style="margin-top: 15px;">
+                    <a href="https://github.com/git-denial/image_processing_histogram_equalization">View Source on
+                        GitHub &rarr;</a>
+                </div>
+            </div>
+
+            <div class="project-card" data-category="ai">
+                <h3>Fourier Transform Image Processing Tool</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">Qt</span>
+                    <span class="tech-tag">OpenCV</span>
+                </div>
+                <p>A desktop image-processing tool that computes and visualizes 2D Discrete Fourier Transforms (DFT) and
+                    Inverse DFTs in real time. Designed to analyze frequency distributions of 2D signals and demonstrate
+                    signal-reconstruction and noise-reduction techniques.</p>
+                <div class="project-links" style="margin-top: 15px;">
+                    <a href="https://github.com/git-denial/image_processing_fourier_transform">View Source on GitHub
+                        &rarr;</a>
+                </div>
+            </div>
+
+            <div class="project-card" data-category="ai">
+                <h3>Otsu Image Segmentation</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">Qt</span>
+                    <span class="tech-tag">OpenCV</span>
+                </div>
+                <p>A desktop image-segmentation demo built in C++ and Qt showcasing a hand-implemented Otsu thresholding
+                    pipeline (with max‑entropy, k‑means and region‑growing comparators) applied to static images,
+                    featuring histogram equalization preprocessing and visible intermediate outputs.</p>
+                <div class="project-links" style="margin-top: 15px;">
+                    <a href="https://github.com/git-denial/image_processing_otsu_segmentation">View Source on GitHub
+                        &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>I'm currently open for new opportunities.</p>
+            <br>
+            <div style="margin-top: 30px;">
+                <a href="mailto:danielamazia@gmail.com" target="_blank" style="margin-right: 15px;">Email</a>
+                <a href="https://github.com/git-denial" target="_blank" style="margin-right: 15px;">GitHub</a>
+                <a href="https://www.linkedin.com/in/daniel-amazia-52a033319" target="_blank">LinkedIn</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; <span id="year"></span> Daniel Amazia. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Update active button state
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if (event) event.target.classList.add('active');
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                const matchesCategory = category === 'all' || ( cardCategory.includes(' ') && cardCategory.split(' ').includes(category) ) || cardCategory === category;
+
+                if (matchesCategory) {
+                    // Remove fade-out class and trigger fade-in animation
+                    card.classList.remove('fade-out');
+                    card.style.display = 'block';
+                    card.classList.add('fade-in');
+                } else {
+                    // Fade out first, then hide display
+                    card.classList.remove('fade-in');
+                    card.classList.add('fade-out');
+
+                    // Hide element from layout after animation completes
+                    setTimeout(() => {
+                        if (card.classList.contains('fade-out')) {
+                            card.style.display = 'none';
+                        }
+                    }, 300); // Duration matches CSS transition (0.3s)
+                }
+            });
+        }
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                // Scroll with an offset for the fixed navbar
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
